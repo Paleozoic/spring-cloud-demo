@@ -1,3 +1,13 @@
 server:
   port: 20001
 
+spring:
+  profiles:
+    active: dev
+  application:
+      name: ms-admin
+  cloud:
+    config:
+      uri: http://localhost:20000
+      label: config-repo
+

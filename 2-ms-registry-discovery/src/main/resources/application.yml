@@ -1,23 +1,13 @@
-# 服务的注册与发现eureka
 server:
   port: 20002
+
 spring:
+  profiles:
+    active: dev
   application:
-    name: ms-registry-discovery
-  boot:
-    admin:
-      url: http://localhost:20001
+      name: ms-registry-discovery
   cloud:
     config:
-        uri: http://localhost:20000
-management:
-      security:
-        enabled: false
-eureka:
-  instance:
-    hostname: localhost
-  client:
-    registerWithEureka: false # 不注册自己到Eureka服务中心
-    fetchRegistry: false # 从Eureka服务中心获取注册信息
-    serviceUrl: # 设置Eureka服务中心地址
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      uri: http://localhost:20000
+      label: config-repo
+

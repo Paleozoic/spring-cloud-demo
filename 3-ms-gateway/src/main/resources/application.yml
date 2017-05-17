@@ -1,32 +1,17 @@
 server:
   port: 20003
-spring:
-  application:
-    name: ms-gateway
-  boot:
-    admin:
-      url: http://localhost:20001
-  cloud:
-      config:
-        uri: http://localhost:20000
-management:
-      security:
-        enabled: false
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:20002/eureka/
-  instance:
-    hostname: localhost
 
-# 设置默认超时时间60s（default为全局；若设置某项服务的超时时间，只需要将default替换为对应的服务名）
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 60000
+spring:
+  profiles:
+    active: dev
+  application:
+      name: ms-gateway
+  cloud:
+    config:
+      uri: http://localhost:20000
+      label: config-repo
+
+
 
 # 对外提供的网关路由，或者用于界面应用对服务端的请求路由。可用nginx替代
 zuul:

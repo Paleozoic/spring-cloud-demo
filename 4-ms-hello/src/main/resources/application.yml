@@ -1,23 +1,13 @@
 server:
   port: 20004
+
 spring:
+  profiles:
+    active: dev
   application:
-    name: ms-hello
-    # 如果是下划线ms_hello ,则host = new URI(url).getHost();会返回null，
-    # 从而导致org.springframework.cloud.netflix.feign.FeignClientsRegistrar#validate 抛出校验异常 FeignClients不可用
-  boot:
-    admin:
-      url: http://localhost:20001
+      name: ms-hello
   cloud:
-      config:
-        uri: http://localhost:20000
-management:
-      security:
-        enabled: false
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:20002/eureka/
-  instance:
-    hostname: localhost
+    config:
+      uri: http://localhost:20000
+      label: config-repo
 

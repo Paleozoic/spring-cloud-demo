@@ -1,21 +1,14 @@
 server:
   port: 20005
+
 spring:
+  profiles:
+    active: dev
   application:
-    name: ms-world
-  boot:
-    admin:
-      url: http://localhost:20001
+      name: ms-world
   cloud:
     config:
       uri: http://localhost:20000
-management:
-      security:
-        enabled: false
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:20002/eureka/
-  instance:
-    hostname: localhost
+      label: config-repo
+
 
