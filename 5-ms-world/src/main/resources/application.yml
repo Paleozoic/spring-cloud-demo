@@ -1,0 +1,21 @@
+server:
+  port: 20005
+spring:
+  application:
+    name: ms-world
+  boot:
+    admin:
+      url: http://localhost:20001
+  cloud:
+    config:
+      uri: http://localhost:20000
+management:
+      security:
+        enabled: false
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:20002/eureka/
+  instance:
+    hostname: localhost
+
