@@ -32,8 +32,8 @@ http://localhost:20003/ms-hello/hello
 http://localhost:20003/ms-world/world
 
 # 配置之坑
-如果是下划线ms-hello ,则`host = new URI(url).getHost();`会返回null，
-从而导致`org.springframework.cloud.netflix.feign.FeignClientsRegistrar#validate` 抛出校验异常 FeignClients不可用
+如果是下划线`ms_hello` ,则`host = new URI(url).getHost();`会返回null，
+从而导致`org.springframework.cloud.netflix.feign.FeignClientsRegistrar#validate` 抛出校验异常 `FeignClients`不可用
 
 # PS
 - 网关用于控制对外提供的路由，或者用于界面应用对服务端的请求路由。可用nginx替代（服务端负载均衡）
