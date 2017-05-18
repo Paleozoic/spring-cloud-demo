@@ -4,6 +4,9 @@ A Demo Of Spring Cloud
 
 # 配置中心
 配置中心仓库位于该项目config-repo分支。
+`application.yml`则是公共配置文件。
+`ms-admin-dev.yml` 表示`spring.application.name`是`ms-admin`的应用，`spring.profiles.active`是`dev`的配置文件。
+配置文件位于仓库根目录，每个应用的配置通过文件名来区分。也可以新建仓库或者分支实现区分。
 
 # 步骤
 - 导入IDE
@@ -32,9 +35,14 @@ http://localhost:20003/ms-hello/hello
 http://localhost:20003/ms-world/world
 
 # 配置之坑
-如果是下划线ms-hello ,则`host = new URI(url).getHost();`会返回null，
+- 如果是下划线ms-hello ,则`host = new URI(url).getHost();`会返回null，
 从而导致`org.springframework.cloud.netflix.feign.FeignClientsRegistrar#validate` 抛出校验异常 FeignClients不可用
+- **诡异**：将`spring.cloud.config`的配置写在`application.yml`不生效，只能写在`bootstrap.yml`，让我觉得好坑。（原来貌似是可以的）
 
 # PS
-- 网关用于控制对外提供的路由，或者用于界面应用对服务端的请求路由。可用nginx替代（服务端负载均衡）
+- 网关用于控制对外（但不限制此要求）提供的路由。可用nginx替代（服务端负载均衡）
 - 内部服务治理则直接基于Eureka实现服务注册发现，Ribbon（Feign）实现负载均衡（客户端负载均衡）
+
+# TODO
+- 转为分布式服务
+- 整合更多组件

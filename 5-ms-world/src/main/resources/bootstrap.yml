@@ -1,0 +1,12 @@
+server:
+  port: 20005
+
+spring:
+  profiles:
+    active: dev
+  application:
+      name: ms-world
+  cloud:
+      config:
+        uri: http://localhost:20000
+        label: config-repo
