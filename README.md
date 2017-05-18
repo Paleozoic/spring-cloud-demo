@@ -39,6 +39,7 @@ http://localhost:20003/ms-world/world
 从而导致`org.springframework.cloud.netflix.feign.FeignClientsRegistrar#validate` 抛出校验异常 FeignClients不可用
 - **诡异**：将`spring.cloud.config`的配置写在`application.yml`不生效，只能写在`bootstrap.yml`，让我觉得好坑。（原来貌似是可以的）
 
+
 # PS
 - 网关用于控制对外（但不限制此要求）提供的路由。可用nginx替代（服务端负载均衡）
 - 内部服务治理则直接基于Eureka实现服务注册发现，Ribbon（Feign）实现负载均衡（客户端负载均衡）
