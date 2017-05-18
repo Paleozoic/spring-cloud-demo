@@ -39,6 +39,9 @@ http://localhost:20003/ms-world/world
 从而导致`org.springframework.cloud.netflix.feign.FeignClientsRegistrar#validate` 抛出校验异常 FeignClients不可用
 - **诡异**：将`spring.cloud.config`的配置写在`application.yml`不生效，只能写在`bootstrap.yml`，让我觉得好坑。（原来貌似是可以的）
 
+# 分布式高可用
+以下是初步设想方案，还未验证，诸君有兴趣可看架构图。
+![分布式服务架构图]()
 
 # PS
 - 网关用于控制对外（但不限制此要求）提供的路由。可用nginx替代（服务端负载均衡）
@@ -47,3 +50,4 @@ http://localhost:20003/ms-world/world
 # TODO
 - 转为分布式服务
 - 整合更多组件
+
