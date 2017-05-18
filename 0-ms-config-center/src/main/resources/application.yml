@@ -12,3 +12,7 @@ spring:
         git:
           uri: https://github.com/Paleozoic/spring_cloud_demo/
           default-label: config-repo
+
+management:
+  security:
+    enabled: false
