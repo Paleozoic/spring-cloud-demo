@@ -1,4 +1,4 @@
-package com.maxplus1.ms_world.rest;
+package com.maxplus1.ms_hello.rest;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

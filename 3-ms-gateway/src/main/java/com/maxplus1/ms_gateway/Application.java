@@ -1,4 +1,4 @@
-package com.maxplus1.ms_world;
+package com.maxplus1.ms_gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
