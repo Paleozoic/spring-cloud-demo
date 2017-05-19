@@ -1,9 +1,4 @@
-server:
-  port: 20001
-
 spring:
-  profiles:
-    active: dev
   application:
     name: ms-admin
   cloud:

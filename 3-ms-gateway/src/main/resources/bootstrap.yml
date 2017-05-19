@@ -1,9 +1,4 @@
-server:
-  port: 20003
-
 spring:
-  profiles:
-    active: dev
   application:
     name: ms-gateway
   cloud:

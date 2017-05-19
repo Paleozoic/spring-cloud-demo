@@ -1,9 +1,4 @@
-server:
-  port: 20004
-
 spring:
-  profiles:
-    active: dev
   application:
       name: ms-hello
   cloud:

@@ -1,9 +1,4 @@
-server:
-  port: 20005
-
 spring:
-  profiles:
-    active: dev
   application:
       name: ms-world
   cloud:

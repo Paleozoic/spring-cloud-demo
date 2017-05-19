@@ -1,12 +1,17 @@
 # spring-cloud-demo
 A Demo Of Spring Cloud
 
+# DevOps
+在我的设想中，通过`java -jar xxx.jar  --spring.profiles.active=dev`指定激活的配置文件，通过`--server.port=20001`指定端口号(方便创建多实例)。
+然后通过简单的脚本时间多服务器，多实例的自动化部署。还可以做成一个DevOps的可视化系统。这个会在集群模式里添加详细的设计和演示。
+当然，还有更加好的DevOps实践，这里不展开讲了（事实上我也不懂~~ :) ）。
 
 # 配置中心
 配置中心仓库位于该项目config-repo分支。
 `application.yml`则是公共配置文件。
-`ms-admin-dev.yml` 表示`spring.application.name`是`ms-admin`的应用，`spring.profiles.active`是`dev`的配置文件。
+`ms-admin-dev.yml` 表示`spring.application.name`是`ms-admin`的应用（其实是serviceId，如果不配置，默认是applicationName），`spring.profiles.active`是`dev`的配置文件。
 配置文件位于仓库根目录，每个应用的配置通过文件名来区分。也可以新建仓库或者分支实现区分。
+
 
 # 步骤
 - 导入IDE
@@ -15,12 +20,12 @@ A Demo Of Spring Cloud
 ```bash
 # 其实在win下命令不好使，就不写win下批处理脚本了。还是一条条执行吧……
 cd D:\xxx\xxx\spring-cloud-demo #项目所在目录
-java -jar 0-ms-config-center/target/ms-config-center-1.0-SNAPSHOT.jar
-java -jar 1-ms-admin/target/ms-admin-1.0-SNAPSHOT.jar
-java -jar 2-ms-registry-discovery/target/ms-registry-discovery-1.0-SNAPSHOT.jar
-java -jar 3-ms-gateway/target/ms-gateway-1.0-SNAPSHOT.jar
-java -jar 4-ms-hello/target/ms-hello-1.0-SNAPSHOT.jar
-java -jar 5-ms-world/target/ms-world-1.0-SNAPSHOT.jar
+java -jar 0-ms-config-center/target/ms-config-center-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20000
+java -jar 1-ms-admin/target/ms-admin-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20001
+java -jar 2-ms-registry-discovery/target/ms-registry-discovery-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20002
+java -jar 3-ms-gateway/target/ms-gateway-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20003
+java -jar 4-ms-hello/target/ms-hello-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20004
+java -jar 5-ms-world/target/ms-world-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20005
 ```
 # 访问地址
 - Spring Boot Admin
