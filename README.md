@@ -41,6 +41,7 @@ http://localhost:20003/ms-world/world
 
 # 分布式高可用
 以下是初步设想方案，还未验证，诸君有兴趣可看架构图。
+理论上可以实现系统强大的横向扩展能力，增加集群的负载和吞吐。
 ![分布式服务架构图](https://github.com/Paleozoic/spring_cloud_demo/blob/master/img/%E5%88%86%E5%B8%83%E5%BC%8F%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E5%9B%BE.png)
 
 # PS
