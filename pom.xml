@@ -10,12 +10,13 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>0-ms-config-center</module>
-        <module>1-ms-admin</module>
-        <module>2-ms-registry-discovery</module>
-        <module>3-ms-gateway</module>
-        <module>4-ms-hello</module>
-        <module>5-ms-world</module>
+        <module>00-ms-registry-discovery</module>
+        <module>10-ms-config-center</module>
+        <module>20-ms-admin</module>
+        <module>30-ms-gateway</module>
+        <module>31-ms-gateway-admin</module>
+        <module>40-ms-hello</module>
+        <module>41-ms-world</module>
     </modules>
 
     <parent>
@@ -51,6 +52,11 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-hystrix</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.5</version>
+        </dependency>
         <!--　Spring Boot Admin 监控客户端 -->
         <dependency>
             <groupId>de.codecentric</groupId>
@@ -67,6 +73,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+        <!-- 编译期工具 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.16</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

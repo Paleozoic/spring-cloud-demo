@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: ms-registry-discovery
+  boot:
+    admin:
+      url: http://localhost:20005
+

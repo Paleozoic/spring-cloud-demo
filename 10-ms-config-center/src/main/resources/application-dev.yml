@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: ms-config-center
+  boot:
+    admin:
+      url: http://localhost:20005
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/Paleozoic/spring_cloud_demo/
+          default-label: config-repo-cluster
+
+management:
+  security:
+    enabled: false
+
+# 服务注册与发现
+eureka:
+  client:
+    registerWithEureka: true # 是否注册自己到Eureka服务中心
+    fetchRegistry: true # 是否从Eureka服务中心获取注册信息
+    serviceUrl: # 设置Eureka服务中心地址
+      defaultZone: http://localhost:20000/eureka/,http://localhost:20001/eureka/,http://localhost:20002/eureka/
