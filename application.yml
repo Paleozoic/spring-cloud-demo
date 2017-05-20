@@ -9,7 +9,7 @@ eureka:
 spring:
   boot:
     admin:
-      url: http://localhost:20002
+      url: http://localhost:20005
 
 management:
   security:
