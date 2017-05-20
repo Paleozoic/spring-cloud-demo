@@ -1,9 +1,0 @@
-spring:
-  application:
-    name: ms-admin
-  cloud:
-    config:
-      uri: http://localhost:20000
-      label: config-repo
-
-
