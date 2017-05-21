@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,10 +45,12 @@ public class RouteAdminRest {
         if (serList.contains(MS_GATEWAY)) {
             List<ServiceInstance> instances = discoveryClient.getInstances(MS_GATEWAY);
             List<String> failInstances = new ArrayList<>();
+            List<String> successInstances = new ArrayList<>();
             instances.forEach(instance -> {
                 try {
                     String url = instance.getUri().toURL().toString() ;
-                    restTemplate.postForObject(url, null, Void.class, (Object[]) null);
+                    restTemplate.postForObject(url+"/refreshRoute", null, Void.class, "");
+                    successInstances.add(instance.getUri().toURL().toString());
                 } catch (Exception e) {
                     try {
                         log.error("[ERROR===>>>]更新路由失败！实例是：" + instance.getUri().toURL().toString() , e);
@@ -57,7 +60,7 @@ public class RouteAdminRest {
                     }
                 }
             });
-            return "[ERROR===>>>]更新完毕，更新失败的实例有：" + failInstances.toString();
+            return "[ERROR===>>>]更新完毕。更新成功的实例有："+ successInstances.toString() +"；更新失败的实例有：" + failInstances.toString() + "。";
         } else {
             return "[ERROR===>>>]没有找到服务：" + MS_GATEWAY;
         }

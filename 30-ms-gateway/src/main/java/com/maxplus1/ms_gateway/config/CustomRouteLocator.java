@@ -65,6 +65,7 @@ public class CustomRouteLocator extends SimpleRouteLocator implements Refreshabl
             }
             values.put(path, entry.getValue());
         }
+        log.info("[INFO===>>>]路由信息已更新！");
         return values;
     }
 

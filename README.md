@@ -49,7 +49,7 @@ java -jar 30-ms-gateway/target/ms-gateway-1.0-SNAPSHOT.jar --spring.profiles.act
 java -jar 30-ms-gateway/target/ms-gateway-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20007
 # 启动网关管理（动态路由）
 java -jar 31-ms-gateway-admin/target/ms-gateway-admin-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20008
-# POST调用 http://localhost:20007/refreshRoute 刷新路由后才可以通过代理访问ms-world
+# POST调用 http://localhost:20008/refreshRoute 刷新路由(ms-gateway会有log提示更新成功)
 # 启动微服务
 java -jar 40-ms-hello/target/ms-hello-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20009
 java -jar 40-ms-hello/target/ms-hello-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20010
