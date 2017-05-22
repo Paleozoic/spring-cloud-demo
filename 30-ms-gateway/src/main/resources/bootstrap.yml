@@ -13,7 +13,7 @@ eureka:
     registerWithEureka: true # 是否注册自己到Eureka服务中心
     fetchRegistry: true # 是否从Eureka服务中心获取注册信息
     serviceUrl: # 设置Eureka服务中心地址
-      defaultZone: http://localhost:20000/eureka/,http://localhost:20001/eureka/,http://localhost:20002/eureka/
+      defaultZone: http://192.168.20.61:20000/eureka/,http://192.168.20.62:20000/eureka/,http://192.168.20.63:20000/eureka/
 
 
 # 对外提供的网关路由，或者用于界面应用对服务端的请求路由。可用nginx替代

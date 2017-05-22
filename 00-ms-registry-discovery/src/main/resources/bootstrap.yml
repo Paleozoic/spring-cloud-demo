@@ -3,5 +3,5 @@ spring:
     name: ms-registry-discovery
   boot:
     admin:
-      url: http://localhost:20005
+      url: http://192.168.20.61:20005
 

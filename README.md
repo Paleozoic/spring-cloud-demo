@@ -28,55 +28,94 @@
 配置文件位于仓库根目录，每个应用的配置通过文件名来区分。也可以新建仓库或者分支实现区分。
 
 
-# 单机模拟分布式集群环境
+# 分布式集群环境(共3个Linux节点)
+## 环境准备
+- 一共3个节点:192.168.20.[61~63]
+- JDK 8
+- 在内网gitlab创建public仓库：config-repo-nodes，创建分支config-repo-nodes
 - 导入IDE
 - 执行父项目Spring-cloud-demo的maven命令，分别是clean和package
-- 之后执行命令：（务必顺序执行）
+- 之后执行命令：
 ```bash
-# 其实在win下命令不好使，就不写win下批处理脚本了。还是一条条执行吧……
-cd D:\xxx\xxx\spring-cloud-demo #项目所在目录
-# 启动服务注册与发现中心
-java -jar 00-ms-registry-discovery/target/ms-registry-discovery-1.0-SNAPSHOT.jar --spring.profiles.active=devMaster --server.port=20000
-java -jar 00-ms-registry-discovery/target/ms-registry-discovery-1.0-SNAPSHOT.jar --spring.profiles.active=devBackup1 --server.port=20001
-java -jar 00-ms-registry-discovery/target/ms-registry-discovery-1.0-SNAPSHOT.jar --spring.profiles.active=devBackup2 --server.port=20002
-# 启动配置中心实例
-java -jar 10-ms-config-center/target/ms-config-center-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20003
-java -jar 10-ms-config-center/target/ms-config-center-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20004
-# 启动监控管理
-java -jar 20-ms-admin/target/ms-admin-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20005
-# 启动网关(多活分流)
-java -jar 30-ms-gateway/target/ms-gateway-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20006
-java -jar 30-ms-gateway/target/ms-gateway-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20007
-# 启动网关管理（动态路由）
-java -jar 31-ms-gateway-admin/target/ms-gateway-admin-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20008
-# POST调用 http://localhost:20008/refreshRoute 刷新路由(ms-gateway会有log提示更新成功)
-# 启动微服务
-java -jar 40-ms-hello/target/ms-hello-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20009
-java -jar 40-ms-hello/target/ms-hello-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20010
-java -jar 41-ms-world/target/ms-world-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20011
-java -jar 41-ms-world/target/ms-world-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20012
+# 首先将package的jars上传到192.168.20.61节点某目录下，假设为/opt/apps
+cd /opt/apps #项目所在目录
+# 然后将应用上传到其它2个节点
+mkdir -p /opt/apps #在其他节点创建文件夹
+scp -r ./* root@192.168.20.62:/opt/apps
+scp -r ./* root@192.168.20.63:/opt/apps
 ```
+## 启动脚本（务必顺序执行）
+### 服务注册与发现中心
+```bash
+# 启动服务注册与发现中心，启动节点[61~63]
+nohup java -jar ms-registry-discovery-1.0-SNAPSHOT.jar --spring.profiles.active=devMaster --server.port=20000 >/dev/null 2>&1 &
+nohup java -jar ms-registry-discovery-1.0-SNAPSHOT.jar --spring.profiles.active=devBackup1 --server.port=20000 >/dev/null 2>&1 &
+nohup java -jar ms-registry-discovery-1.0-SNAPSHOT.jar --spring.profiles.active=devBackup2 --server.port=20000 >/dev/null 2>&1 &
+```
+### 分布式配置中心
+```bash
+# 启动配置中心实例，启动节点[61~63]
+nohup java -jar ms-config-center-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20001 >/dev/null 2>&1 &
+```
+### 监控管理
+```bash
+# 启动监控管理，启动节点[61]
+nohup java -jar ms-admin-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20002 >/dev/null 2>&1 &
+```
+### 网关
+```bash
+# 启动网关，启动节点[61~63]
+nohup java -jar ms-gateway-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20003 >/dev/null 2>&1 &
+```
+
+### 网关管理
+```bash
+# 启动网关管理（动态路由），启动节点[61]
+nohup java -jar ms-gateway-admin-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20004 >/dev/null 2>&1 &
+# POST调用 http://192.168.20.61:20004/refreshRoute 刷新路由(ms-gateway会有log提示更新成功)
+```
+### 启动微服务
+```bash
+# 启动微服务，启动节点[61~63]
+nohup java -jar ms-hello-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20005 >/dev/null 2>&1 &
+nohup java -jar ms-world-1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.port=20006 >/dev/null 2>&1 &
+```
+## 暴力kill脚本
+```bash
+jps -l |grep ms-world-1.0-SNAPSHOT.jar |cut -c 1-6|xargs kill -9
+jps -l |grep ms-hello-1.0-SNAPSHOT.jar |cut -c 1-6|xargs kill -9
+jps -l |grep ms-gateway-admin-1.0-SNAPSHOT.jar |cut -c 1-6|xargs kill -9
+jps -l |grep ms-gateway-1.0-SNAPSHOT.jar |cut -c 1-6|xargs kill -9
+jps -l |grep ms-admin-1.0-SNAPSHOT.jar |cut -c 1-6|xargs kill -9
+jps -l |grep ms-config-center-1.0-SNAPSHOT.jar |cut -c 1-6|xargs kill -9
+jps -l |grep ms-registry-discovery-1.0-SNAPSHOT.jar |cut -c 1-6|xargs kill -9
+```
+
 # 访问地址
 - Spring Boot Admin
-  * http://localhost:20005/
+  * http://192.168.20.61:20002/
 - Eureka
-  * http://localhost:20000/
-  * http://localhost:20001/
-  * http://localhost:20002/
+  * http://192.168.20.61:20000/
+  * http://192.168.20.62:20000/
+  * http://192.168.20.63:20000/
 - 直接访问配置中心
-  * http://localhost:20003/{applicationName}/{profile}/{lable/branch}
-  * http://localhost:20003/ms-admin/dev/config-repo-cluster
-  * http://localhost:20004/ms-admin/dev/config-repo-cluster
+  * http://192.168.20.61:20001/{applicationName}/{profile}/{lable/branch}
+  * http://192.168.20.62:20001/ms-admin/dev/config-repo-cluster
+  * http://192.168.20.63:20001/ms-admin/dev/config-repo-cluster
 - 直接访问服务
-  * http://localhost:20009/hello
-  * http://localhost:20010/hello
-  * http://localhost:20011/world
-  * http://localhost:20012/world
+  * http://192.168.20.61:20005/hello
+  * http://192.168.20.62:20005/hello
+  * http://192.168.20.63:20005/hello
+  * http://192.168.20.61:20006/world
+  * http://192.168.20.62:20006/world
+  * http://192.168.20.63:20006/world
 - 代理访问
-  * http://localhost:20006/ms-hello/hello
-  * http://localhost:20007/ms-hello/hello
-  * http://localhost:20006/ms-world/world
-  * http://localhost:20007/ms-world/world
+  * http://192.168.20.61:20003/ms-hello/hello
+  * http://192.168.20.62:20003/ms-hello/hello
+  * http://192.168.20.63:20003/ms-hello/hello
+  * http://192.168.20.61:20003/ms-world/world
+  * http://192.168.20.62:20003/ms-world/world
+  * http://192.168.20.63:20003/ms-world/world
 
 # 配置之坑
 - 如果是下划线ms-hello ,则`host = new URI(url).getHost();`会返回null，
