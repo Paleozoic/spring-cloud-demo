@@ -1,7 +1,7 @@
 spring:
   boot:
     admin:
-      url: http://localhost:20005
+      url: http://192.168.20.61:20002
 
 management:
   security:
